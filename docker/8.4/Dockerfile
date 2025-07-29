@@ -1,11 +1,7 @@
 FROM ubuntu:24.04
-
-LABEL maintainer="Taylor Otwell"
-
 ARG WWWGROUP
 ARG NODE_VERSION=22
 ARG MYSQL_CLIENT="mysql-client"
-ARG POSTGRES_VERSION=17
 
 WORKDIR /var/www/html
 
@@ -50,7 +46,6 @@ RUN apt-get update && apt-get upgrade -y \
     && apt-get update \
     && apt-get install -y yarn \
     && apt-get install -y $MYSQL_CLIENT \
-    && apt-get install -y postgresql-client-$POSTGRES_VERSION \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

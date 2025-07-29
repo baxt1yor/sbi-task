@@ -34,4 +34,21 @@ final class MultiLanguageFiled implements Arrayable
             'cyrl' => $this->cyrl
         ];
     }
+
+    public static function fromArray(array $array) : self
+    {
+        $object = new self();
+
+        if (isset($array['uz'])) {
+            $object->uz = $array['uz'];
+        }
+        if (isset($array['ru'])) {
+            $object->ru = $array['ru'];
+        }
+        if (isset($array['cyrl'])) {
+            $object->cyrl = $array['cyrl'];
+        }
+
+        return $object;
+    }
 }

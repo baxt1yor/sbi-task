@@ -2,49 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\ICategoryService;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(
+        public readonly ICategoryService $categoryService
+    ){}
+
     public function index()
     {
-        //
+        return $this->categoryService->getAll();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        return $this->categoryService->create($request->validated());
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Category $category)
     {
-        //
+        return $this->categoryService->getById($category);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        return $this->categoryService->update($category, $request->validated());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Category $category)
     {
-        //
+        $this->categoryService->delete($category);
+        return response()->noContent();
     }
 }
