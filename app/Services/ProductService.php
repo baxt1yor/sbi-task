@@ -3,35 +3,37 @@
 namespace App\Services;
 
 use App\Contracts\IProductService;
+use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
+use App\Models\Category;
 use App\Models\Product;
 
 class ProductService implements IProductService
 {
-
     public function getAll(): ProductCollection
     {
-        // TODO: Implement getAll() method.
+        return new ProductCollection(Category::query()->paginate(20));
     }
 
     public function getById(Product $product): ProductResource
     {
-        // TODO: Implement getById() method.
+        return new ProductResource($product);
     }
 
     public function create(array $data): ProductResource
     {
-        // TODO: Implement create() method.
+        return new ProductResource(Product::query()->create($data));
     }
 
     public function update(Product $product, array $data): ProductResource
     {
-        // TODO: Implement update() method.
+        $product->update($data);
+        return new ProductResource($product);
     }
 
     public function delete(Product $product): void
     {
-        // TODO: Implement delete() method.
+        $product->delete();
     }
 }

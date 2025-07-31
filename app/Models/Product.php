@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\MultiLanguageFieldCast;
 use App\Dto\MultiLanguageFiled;
 use Database\Factories\ProductFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,7 +27,6 @@ class Product extends Model
 
     /** @var array<int, string> */
     protected $fillable = [
-        "id",
         "name",
         "price",
         "barcode",
@@ -35,7 +35,7 @@ class Product extends Model
 
     /** @var array<string, mixed> */
     protected $casts = [
-        'name' => MultiLanguageFiled::class,
+        'name' => MultiLanguageFieldCast::class,
     ];
 
     public function category(): BelongsTo

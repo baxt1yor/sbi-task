@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\IProductService;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        private readonly IProductService $productService
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return $this->productService->getAll();
     }
 
     /**
@@ -21,7 +26,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        return $this->productService->create($request->validated());
     }
 
     /**
@@ -29,7 +34,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return $this->productService->getById($product);
     }
 
     /**
@@ -37,7 +42,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        return $this->productService->update($product, $request->validated());
     }
 
     /**
@@ -45,6 +50,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $this->productService->delete($product);
+        return response()->noContent();
     }
 }

@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Category;
+use App\Rules\BarcodeValidationRule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateProductRequest extends FormRequest
 {
@@ -11,18 +15,35 @@ class UpdateProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'name.cyrl' => 'required|string|max:255',
+            'name.ru' => 'required|string|max:255',
+            'name.uz' => 'required|string|max:255',
+
+            'price' => [
+                'required',
+                'min_digits:0'
+            ],
+
+            'barcode' => [
+                'required',
+                new BarcodeValidationRule
+            ],
+
+            'category_id' => [
+                'required',
+                Rule::exists(app(Category::class)->getTable(), 'id')
+            ]
         ];
     }
 }

@@ -48,7 +48,7 @@ class MultiLanguageFieldCast implements CastsAttributes
      *
      * @param  array<string, mixed>  $attributes
      */
-    public function set(Model $model, string $key, mixed $value, array $attributes): mixed
+    public function set(Model $model, string $key, mixed $value, array $attributes): string|null|false
     {
         if ($value instanceof MultiLanguageFiled)
         {
