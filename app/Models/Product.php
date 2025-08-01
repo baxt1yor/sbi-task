@@ -30,7 +30,7 @@ class Product extends Model
         "name",
         "price",
         "barcode",
-        "categoryId"
+        "category_id"
     ];
 
     /** @var array<string, mixed> */

@@ -8,13 +8,42 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 test('can create product', function () {
-    Category::query()->create(['name' => MultiLanguageFiled::fromArray([
+    $category = Category::query()->create(['name' => MultiLanguageFiled::fromArray([
         'cyrl' => 'Chair',
         'ru' => 'Стул',
         'uz' => 'Stul',
     ])]);
 
-    $data = [
+    $request = [
+        'name' => [
+            'cyrl' => 'Chair',
+            'ru' => 'Стул',
+            'uz' => 'Stul',
+        ],
+        'price' => 10000,
+        'barcode' => '8711253001202',
+        'category_id' => $category->id,
+    ];
+
+    $response = $this->postJson(route('products.store'), $request);
+
+    $response->assertCreated();
+
+    $this->assertDatabaseHas(app(Product::class)->getTable(), [
+        'price' => 10000,
+        'barcode' => '8711253001202',
+        'name->ru' => 'Стул',
+    ]);
+});
+
+test('can update product', function () {
+    $category = Category::query()->create(['name' => MultiLanguageFiled::fromArray([
+        'cyrl' => 'Chair',
+        'ru' => 'Стул',
+        'uz' => 'Stul',
+    ])]);
+
+    $product = Product::query()->create([
         'name' => MultiLanguageFiled::fromArray([
             'cyrl' => 'Chair',
             'ru' => 'Стул',
@@ -22,12 +51,23 @@ test('can create product', function () {
         ]),
         'price' => 10000,
         'barcode' => '8711253001202',
-        'category_id' => Category::query()->first()?->id,
+        'category_id' => $category->id,
+    ]);
+
+    $request = [
+        'name' => MultiLanguageFiled::fromArray([
+            'cyrl' => 'Chair',
+            'ru' => 'Стул',
+            'uz' => 'Stul',
+        ]),
+        'price' => 100000,
+        'barcode' => '8711253001202',
+        'category_id' => $category->id,
     ];
 
-    $response = $this->postJson('/api/products', $data);
+    $response = $this->putJson(route('products.update', $product->id), $request);
 
-    $response->assertStatus(201);
-    expect(Product::query()->count())->toBe(1);
+    $response->assertOk();
+    expect((double)Product::query()->find($product->id)->price)->toBe((double)100000.00);
 });
 

@@ -13,7 +13,7 @@ class ProductService implements IProductService
 {
     public function getAll(): ProductCollection
     {
-        return new ProductCollection(Category::query()->paginate(20));
+        return new ProductCollection(Product::query()->paginate(20));
     }
 
     public function getById(Product $product): ProductResource

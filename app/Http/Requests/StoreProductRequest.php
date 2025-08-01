@@ -26,9 +26,9 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name.cyrl' => 'required|string|max:255',
-            'name.ru' => 'required|string|max:255',
-            'name.uz' => 'required|string|max:255',
+            'name.cyrl' => 'required|string|min:2|max:255',
+            'name.ru' => 'required|string|min:2|max:255',
+            'name.uz' => 'required|string|min:2|max:255',
 
             'price' => [
                 'required',
