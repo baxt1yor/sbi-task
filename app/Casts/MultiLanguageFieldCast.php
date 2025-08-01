@@ -4,7 +4,6 @@ namespace App\Casts;
 
 use App\Dto\MultiLanguageFiled;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Database\Eloquent\Model;
 
 class MultiLanguageFieldCast implements CastsAttributes
 {

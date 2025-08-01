@@ -37,18 +37,11 @@ final class MultiLanguageFiled implements Arrayable
 
     public static function fromArray(array $array) : self
     {
-        $object = new self();
+        $instance = new self();
+        $instance->uz = $array['uz'] ?? "";
+        $instance->ru = $array['ru'] ?? "";
+        $instance->cyrl = $array['cyrl'] ?? "";
 
-        if (isset($array['uz'])) {
-            $object->uz = $array['uz'];
-        }
-        if (isset($array['ru'])) {
-            $object->ru = $array['ru'];
-        }
-        if (isset($array['cyrl'])) {
-            $object->cyrl = $array['cyrl'];
-        }
-
-        return $object;
+        return $instance;
     }
 }
