@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Casts\MultiLanguageFieldCast;
+use App\Dto\MultiLanguageFiled;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
- * @property MultiLanguageFieldCast $name
+ * @property MultiLanguageFiled $name
  * @property array<int, Product> $products
  */
 class Category extends Model
